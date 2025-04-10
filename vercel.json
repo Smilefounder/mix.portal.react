@@ -5,6 +5,12 @@
   "env": {
     "NEXT_TELEMETRY_DISABLED": "1",
     "NEXT_IGNORE_TYPE_CHECK": "true",
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "NODE_VERSION": "18.x"
+  },
+  "functions": {
+    "api/**/*.js": {
+      "memory": 1024
+    }
   }
 } 
