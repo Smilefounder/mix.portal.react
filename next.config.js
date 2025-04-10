@@ -17,7 +17,7 @@ const nextConfig = {
   },
   // Minimize bundle size
   productionBrowserSourceMaps: false,
-  memoryLimit: 8192, // in MB
+  memoryLimit: 1024, // in MB - set to 1GB for Vercel free tier
   poweredByHeader: false,
   images: {
     // Optimize image handling
@@ -84,30 +84,53 @@ const nextConfig = {
       config.optimization = {
         ...config.optimization,
         minimize: true,
+        // Use lowest memory settings for Vercel
+        minimizer: [
+          '...',
+          new (require('css-minimizer-webpack-plugin'))({
+            minimizerOptions: {
+              preset: ['default', { discardComments: { removeAll: true } }],
+            },
+          }),
+        ],
         splitChunks: {
           chunks: 'all',
-          maxInitialRequests: 25,
-          minSize: 20000,
+          maxInitialRequests: 10, // Reduced from 25
+          maxAsyncRequests: 10,   // Added to limit concurrent requests
+          minSize: 50000,         // Increased to reduce number of small chunks
+          maxSize: 150000,        // Reduced chunk size for Vercel
           cacheGroups: {
-            vendors: {
+            // Single vendor chunk to reduce memory usage
+            vendor: {
               test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
+              name: 'vendor',
               chunks: 'all',
               priority: 10
             },
-            commons: {
-              test: /[\\/]components[\\/]/,
-              name: 'commons',
+            common: {
+              test: /[\\/](components|lib)[\\/]/,
+              name: 'common',
               chunks: 'all',
               minChunks: 2,
-              priority: 5
+              priority: 5,
+              reuseExistingChunk: true
             }
           }
         },
-        runtimeChunk: {
-          name: 'runtime',
-        }
+        runtimeChunk: 'single'
       };
+      
+      // Aggressive tree shaking for smaller bundle
+      config.optimization.usedExports = true;
+      
+      // For small builds, lower watch options polling
+      config.watchOptions = {
+        ...config.watchOptions,
+        poll: false,
+      };
+      
+      // Limit parallel operations
+      config.parallelism = 1;
     }
     
     return config;

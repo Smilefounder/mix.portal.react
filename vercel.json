@@ -1,10 +1,21 @@
 {
-  "buildCommand": "NODE_OPTIONS='--max_old_space_size=8192' pnpm run build:optimized",
-  "installCommand": "pnpm install --no-frozen-lockfile",
+  "buildCommand": "pnpm build:vercel",
+  "installCommand": "pnpm install --frozen-lockfile",
   "outputDirectory": ".next",
+  "framework": "nextjs",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next",
+      "config": {
+        "maxLambdaSize": "10mb",
+        "memory": 1024
+      }
+    }
+  ],
   "env": {
+    "NEXT_TELEMETRY_DISABLED": "1",
     "NEXT_IGNORE_TYPE_CHECK": "true",
-    "NODE_ENV": "production",
-    "CI": "false"
+    "NODE_ENV": "production"
   }
 } 
