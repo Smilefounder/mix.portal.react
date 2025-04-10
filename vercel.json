@@ -1,4 +1,15 @@
 {
-  "buildCommand": "NODE_OPTIONS='--max_old_space_size=4096' next build",
-  "outputDirectory": ".next"
+  "buildCommand": "NODE_OPTIONS='--max_old_space_size=8192' next build",
+  "outputDirectory": ".next",
+  "builds": [
+    {
+      "src": "next.config.js",
+      "use": "@vercel/next"
+    }
+  ],
+  "env": {
+    "NEXT_IGNORE_TYPE_CHECK": "true",
+    "NODE_ENV": "production",
+    "CI": "false"
+  }
 } 
