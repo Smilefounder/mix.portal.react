@@ -1,14 +1,6 @@
 'use client';
 
-// Required for static export with dynamic routes
-export function generateStaticParams() {
-  // This is a placeholder - in production you'd want to specify actual IDs
-  return [
-    { id: 'demo-1' },
-    { id: 'demo-2' }
-  ];
-}
-
+// The generateStaticParams function has been moved to a separate file: generateStaticParams.ts
 
 import React from 'react';
 import Link from 'next/link';
