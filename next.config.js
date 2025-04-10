@@ -17,8 +17,12 @@ const nextConfig = {
   },
   // Minimize bundle size
   productionBrowserSourceMaps: false,
+  memoryLimit: 8192, // in MB
   poweredByHeader: false,
   images: {
+    // Optimize image handling
+    minimumCacheTTL: 60,
+    formats: ['image/webp'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -83,7 +87,25 @@ const nextConfig = {
         splitChunks: {
           chunks: 'all',
           maxInitialRequests: 25,
-          minSize: 20000
+          minSize: 20000,
+          cacheGroups: {
+            vendors: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              chunks: 'all',
+              priority: 10
+            },
+            commons: {
+              test: /[\\/]components[\\/]/,
+              name: 'commons',
+              chunks: 'all',
+              minChunks: 2,
+              priority: 5
+            }
+          }
+        },
+        runtimeChunk: {
+          name: 'runtime',
         }
       };
     }
