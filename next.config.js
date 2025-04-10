@@ -80,57 +80,22 @@ const nextConfig = {
     if (!dev) {
       config.devtool = false;
       
-      // Optimize chunk size
+      // Use simplified optimization for Vercel's 1GB limit
       config.optimization = {
         ...config.optimization,
         minimize: true,
-        // Use lowest memory settings for Vercel
-        minimizer: [
-          '...',
-          new (require('css-minimizer-webpack-plugin'))({
-            minimizerOptions: {
-              preset: ['default', { discardComments: { removeAll: true } }],
-            },
-          }),
-        ],
         splitChunks: {
           chunks: 'all',
-          maxInitialRequests: 10, // Reduced from 25
-          maxAsyncRequests: 10,   // Added to limit concurrent requests
-          minSize: 50000,         // Increased to reduce number of small chunks
-          maxSize: 150000,        // Reduced chunk size for Vercel
           cacheGroups: {
-            // Single vendor chunk to reduce memory usage
             vendor: {
               test: /[\\/]node_modules[\\/]/,
               name: 'vendor',
-              chunks: 'all',
-              priority: 10
-            },
-            common: {
-              test: /[\\/](components|lib)[\\/]/,
-              name: 'common',
-              chunks: 'all',
-              minChunks: 2,
-              priority: 5,
-              reuseExistingChunk: true
+              chunks: 'all'
             }
           }
         },
         runtimeChunk: 'single'
       };
-      
-      // Aggressive tree shaking for smaller bundle
-      config.optimization.usedExports = true;
-      
-      // For small builds, lower watch options polling
-      config.watchOptions = {
-        ...config.watchOptions,
-        poll: false,
-      };
-      
-      // Limit parallel operations
-      config.parallelism = 1;
     }
     
     return config;

@@ -2,17 +2,6 @@
   "buildCommand": "pnpm build:vercel",
   "installCommand": "pnpm install --frozen-lockfile",
   "outputDirectory": ".next",
-  "framework": "nextjs",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next",
-      "config": {
-        "maxLambdaSize": "10mb",
-        "memory": 1024
-      }
-    }
-  ],
   "env": {
     "NEXT_TELEMETRY_DISABLED": "1",
     "NEXT_IGNORE_TYPE_CHECK": "true",
