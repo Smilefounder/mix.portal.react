@@ -10,6 +10,14 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Optimize memory usage
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  // Minimize bundle size
+  productionBrowserSourceMaps: false,
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       {
@@ -67,6 +75,17 @@ const nextConfig = {
     // Disable source maps in production to reduce memory usage
     if (!dev) {
       config.devtool = false;
+      
+      // Optimize chunk size
+      config.optimization = {
+        ...config.optimization,
+        minimize: true,
+        splitChunks: {
+          chunks: 'all',
+          maxInitialRequests: 25,
+          minSize: 20000
+        }
+      };
     }
     
     return config;
