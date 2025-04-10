@@ -490,7 +490,11 @@ export function TableDetail({ tableName, onBackClick }: TableDetailProps) {
                   {table.columns.map((column, i) => (
                     <TableRow key={i}>
                       <TableCell>
-                        {column.isPrimaryKey && <Key className="h-4 w-4 text-amber-500" title="Primary Key" />}
+                        {column.isPrimaryKey && (
+                          <span title="Primary Key">
+                            <Key className="h-4 w-4 text-amber-500" />
+                          </span>
+                        )}
                       </TableCell>
                       <TableCell className="font-medium">{column.name}</TableCell>
                       <TableCell className="flex items-center gap-1">

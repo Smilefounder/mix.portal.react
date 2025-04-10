@@ -125,7 +125,7 @@ export default function PostsPage() {
 
     try {
       setIsDeleteLoading(true);
-      await postService.deletePost(deleteId);
+      await postService.deletePost(parseInt(deleteId, 10));
       // Refetch posts after deletion
       fetchPosts();
     } catch (error) {

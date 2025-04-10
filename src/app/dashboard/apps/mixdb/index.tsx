@@ -86,8 +86,8 @@ export function MixDBApp(props: MixDBAppProps) {
       case 'detail':
         return selectedTableId ? (
           <TableDetail 
-            tableId={selectedTableId} 
-            onBack={handleBackToTables} 
+            tableName={selectedTableId} 
+            onBackClick={handleBackToTables} 
           />
         ) : (
           <div className="text-center py-10">

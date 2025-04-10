@@ -40,7 +40,7 @@ export interface WorkflowNode extends Node {
 // Workflow type definitions
 
 export interface Workflow {
-  id?: string;
+  id: string;
   name: string;
   description?: string;
   nodes: Node[];

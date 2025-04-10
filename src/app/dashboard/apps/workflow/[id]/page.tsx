@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { 
   ArrowLeft, Edit, Play, Pause, Clock, Calendar, BarChart, 
   Calendar as CalendarIcon, Eye, Download, Trash2, Share2, Copy
@@ -51,8 +51,9 @@ interface ExecutionRecord {
   nodeCount: number;
 }
 
-export default function WorkflowDetailPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function WorkflowDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
   const router = useRouter();
   const { toast } = useToast();
   

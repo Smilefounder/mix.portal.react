@@ -6,13 +6,13 @@ import * as Yup from 'yup';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
-import { RadioGroup } from '@/components/ui/radio-group';
-import { MultiSelect } from '@/components/ui/multi-select';
+import { RadioGroup as UIRadioGroup } from '@/components/ui/radio-group';
+import { Select } from './Select';
+import { Label } from '@/components/ui/label';
+import { MultiSelect } from './MultiSelect';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 
@@ -142,6 +142,8 @@ export function BaseForm({
                   as={Textarea}
                   id={field.name}
                   name={field.name}
+                  value={values[field.name] || ''}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFieldValue(field.name, e.target.value)}
                   placeholder={field.placeholder}
                   disabled={field.disabled || isLoading}
                 />
@@ -151,8 +153,8 @@ export function BaseForm({
                 <Select
                   id={field.name}
                   name={field.name}
-                  value={values[field.name]}
-                  onChange={(value) => setFieldValue(field.name, value)}
+                  value={values[field.name] || ''}
+                  onChange={(value: string) => setFieldValue(field.name, value)}
                   options={field.options || []}
                   placeholder={field.placeholder}
                   disabled={field.disabled || isLoading}
@@ -160,14 +162,25 @@ export function BaseForm({
               )}
 
               {field.type === 'radio' && (
-                <RadioGroup
-                  id={field.name}
-                  name={field.name}
-                  value={values[field.name]}
-                  onValueChange={(value) => setFieldValue(field.name, value)}
-                  options={field.options || []}
-                  disabled={field.disabled || isLoading}
-                />
+                <div className="flex items-center space-x-2">
+                  {(field.options || []).map(option => (
+                    <div key={option.value} className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        id={`${field.name}-${option.value}`}
+                        name={field.name}
+                        value={option.value}
+                        checked={values[field.name] === option.value}
+                        onChange={() => setFieldValue(field.name, option.value)}
+                        disabled={field.disabled || isLoading}
+                        className="h-4 w-4 border-gray-300 text-primary focus:ring-primary"
+                      />
+                      <Label htmlFor={`${field.name}-${option.value}`} className="text-sm">
+                        {option.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
               )}
 
               {field.type === 'checkbox' && (
@@ -198,8 +211,8 @@ export function BaseForm({
                 <MultiSelect
                   id={field.name}
                   name={field.name}
-                  value={values[field.name]}
-                  onChange={(value) => setFieldValue(field.name, value)}
+                  value={values[field.name] || []}
+                  onChange={(value: string[]) => setFieldValue(field.name, value)}
                   options={field.options || []}
                   placeholder={field.placeholder}
                   disabled={field.disabled || isLoading}

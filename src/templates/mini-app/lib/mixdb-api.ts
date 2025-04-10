@@ -46,7 +46,7 @@
  */
 
 import { MixDbEntity, PaginatedResponse, Request, requestToQueryOptions } from './types';
-import { ApiResponse } from '../../../types/api';
+import { ApiResponse } from '@/types/api';
 import { AuthService } from './auth';
 import { CultureService } from './culture';
 

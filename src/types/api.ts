@@ -16,6 +16,10 @@ export interface ApiResponse<T = any> {
   metadata?: Record<string, any>;
   /** Error details (if any) */
   errors?: string[];
+  /** Success flag for compatibility */
+  success?: boolean;
+  /** HTTP status code */
+  status?: number;
 }
 
 /**
@@ -36,6 +40,19 @@ export interface PaginatedResponse<T = any> {
   hasPrevious: boolean;
   /** Whether there is a next page */
   hasNext: boolean;
+  /** Paging data in legacy format */
+  pagingData?: {
+    pageIndex: number;
+    pageSize: number;
+    totalItems: number;
+    totalPage: number;
+  };
+  /** Success flag */
+  success?: boolean;
+  /** HTTP status code */
+  status?: number;
+  /** Error details (if any) */
+  errors?: any[];
 }
 
 /**

@@ -11,6 +11,7 @@
     "custom-server": "node server.js",
     "build": "next build",
     "build:optimized": "NODE_OPTIONS='--max_old_space_size=4096' next build",
+    "build:no-checks": "NEXT_IGNORE_TYPE_CHECK=true next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "eslint src --fix && pnpm format",

@@ -354,7 +354,7 @@ export function WorkflowApp(props: WorkflowAppProps) {
                   <TemplateCard
                     key={template.id}
                     template={template}
-                    onUseTemplate={handleUseTemplate}
+                    onUse={handleUseTemplate}
                   />
                 ))}
               </div>

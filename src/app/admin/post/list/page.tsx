@@ -7,8 +7,9 @@ import { DataTable } from '@/components/ui/data-table';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash2, Plus, ExternalLink } from 'lucide-react';
 import { PostsApi } from '@/services/api';
-import { Post, PaginationResult } from '@/types';
+import { Post, PostListResponse as PaginationResult } from '@/types/post';
 import { format } from 'date-fns';
+import { MixContentStatus } from '@/types/content';
 
 export default function PostListPage() {
   const router = useRouter();
@@ -51,15 +52,15 @@ export default function PostListPage() {
         let statusClass = 'bg-gray-200 text-gray-800';
 
         switch (status) {
-          case 0:
+          case MixContentStatus.Draft:
             statusText = 'Draft';
             statusClass = 'bg-gray-200 text-gray-800';
             break;
-          case 1:
+          case MixContentStatus.Published:
             statusText = 'Published';
             statusClass = 'bg-green-100 text-green-800';
             break;
-          case 2:
+          case MixContentStatus.Archived:
             statusText = 'Archived';
             statusClass = 'bg-yellow-100 text-yellow-800';
             break;
@@ -75,10 +76,12 @@ export default function PostListPage() {
       }
     },
     {
-      accessorKey: 'createdDate',
+      accessorKey: 'createdDateTime',
       header: 'Created Date',
       cell: ({ row }) =>
-        format(new Date(row.original.createdDate), 'MMM dd, yyyy')
+        row.original.createdDateTime 
+          ? format(new Date(row.original.createdDateTime), 'MMM dd, yyyy')
+          : 'N/A'
     },
     {
       accessorKey: 'createdBy',
@@ -147,9 +150,11 @@ export default function PostListPage() {
           <DataTable
             columns={columns}
             data={posts}
-            searchColumn='title'
-            searchPlaceholder='Search posts...'
+            searchKey="title"
+            searchPlaceholder="Search posts..."
+            totalItems={totalPosts}
             pageSize={10}
+            isLoading={loading}
           />
         )}
       </div>

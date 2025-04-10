@@ -5,9 +5,9 @@ import { WorkflowTemplate } from '../../lib/types';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { MessagesSquare, Database } from 'lucide-react';
+import { MessagesSquare, Database, Eye } from 'lucide-react';
 
-interface TemplateCardProps {
+export interface TemplateCardProps {
   template: {
     id: string;
     title: string;
@@ -18,10 +18,11 @@ interface TemplateCardProps {
     nodes: number;
     connections: number;
   };
-  onUseTemplate: (id: string) => void;
+  onUse: (id: string) => void;
+  onView?: (id: string) => void;
 }
 
-export function TemplateCard({ template, onUseTemplate }: TemplateCardProps) {
+export function TemplateCard({ template, onUse, onView }: TemplateCardProps) {
   return (
     <Card className="overflow-hidden border hover:shadow-md transition-shadow">
       <div className="relative h-40 bg-slate-100 overflow-hidden">
@@ -65,9 +66,17 @@ export function TemplateCard({ template, onUseTemplate }: TemplateCardProps) {
         <div className="text-xs text-muted-foreground">
           By {template.author}
         </div>
-        <Button size="sm" variant="default" onClick={() => onUseTemplate(template.id)}>
-          Use Template
-        </Button>
+        <div className="flex gap-2">
+          {onView && (
+            <Button size="sm" variant="outline" onClick={() => onView(template.id)}>
+              <Eye className="h-3.5 w-3.5 mr-1" />
+              View
+            </Button>
+          )}
+          <Button size="sm" variant="default" onClick={() => onUse(template.id)}>
+            Use Template
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );

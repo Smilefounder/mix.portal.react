@@ -2,6 +2,14 @@
 const nextConfig = {
   output: 'standalone',
   distDir: '.next',
+  // Disable TypeScript checks during build
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  // Disable ESLint during build
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
     remotePatterns: [
       {

@@ -4,11 +4,13 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 import { WorkflowEditor } from '../../components/editor/WorkflowEditor';
 
-export default function WorkflowEditorWithIdPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function WorkflowEditorWithIdPage() {
+  const params = useParams();
+  const id = params.id as string;
   
   return (
     <div className="h-full flex flex-col overflow-hidden">

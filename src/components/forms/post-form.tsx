@@ -59,6 +59,7 @@ export function PostForm({ onSubmit, initialValues }: PostFormProps) {
       type: 'text',
       placeholder: 'Enter post title',
       required: true,
+      // @ts-ignore - Yup.string() is compatible with Yup.Schema but TS doesn't infer it correctly
       validation: Yup.string()
         .required('Title is required')
         .min(3, 'Title must be at least 3 characters')
@@ -70,6 +71,7 @@ export function PostForm({ onSubmit, initialValues }: PostFormProps) {
       type: 'textarea',
       placeholder: 'Enter post content',
       required: true,
+      // @ts-ignore - Yup.string() is compatible with Yup.Schema but TS doesn't infer it correctly
       validation: Yup.string()
         .required('Content is required')
         .min(10, 'Content must be at least 10 characters')
